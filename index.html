@@ -1,218 +1,235 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>육군 간부 병과 추천 AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>육군 간부 병과 추천 AI</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- ── 헤더 ── -->
-<div class="header">
-  <div class="header-badge"><span class="badge-dot"></span>ROK ARMY · AI MATCHING</div>
-  <span class="title-ko">육군 간부 병과 추천<span class="ai-pill">AI</span></span>
-  <span class="title-en">Special Branch Recommendation System</span>
-  <p class="header-desc">나의 학과 · 자격증 · 성격으로 딱 맞는 병과 특기를 찾아드려요</p>
-</div>
+  <!-- ── 헤더 ── -->
+  <div class="header">
+    <div class="header-badge"><span class="badge-dot"></span>ROK ARMY · AI MATCHING</div>
+    <span class="title-ko">육군 간부 병과 추천<span class="ai-pill">AI</span></span>
+    <span class="title-en">Special Branch Recommendation System</span>
+    <p class="header-desc">나의 학과 · 자격증 · 성격으로 딱 맞는 병과 특기를 찾아드려요</p>
+  </div>
 
-<!-- ── 단계 네비게이션 ── -->
-<div class="steps-nav" id="stepsNav">
-  <button class="step-btn active" id="stepBtn1"><span class="step-num">01</span>기본정보</button>
-  <button class="step-btn" id="stepBtn2"><span class="step-num">02</span>학과·전공</button>
-  <button class="step-btn" id="stepBtn3"><span class="step-num">03</span>자격증</button>
-  <button class="step-btn" id="stepBtn4"><span class="step-num">04</span>성격유형</button>
-</div>
+  <!-- ── 단계 네비게이션 ── -->
+  <div class="steps-nav" id="stepsNav">
+    <button class="step-btn active" id="stepBtn1"><span class="step-num">01</span>기본정보</button>
+    <button class="step-btn" id="stepBtn2"><span class="step-num">02</span>학과·전공</button>
+    <button class="step-btn" id="stepBtn3"><span class="step-num">03</span>자격증</button>
+    <button class="step-btn" id="stepBtn4"><span class="step-num">04</span>성격유형</button>
+  </div>
 
-<!-- ── Step 01: 기본정보 ── -->
-<div class="screen active" id="screen1">
-  <div class="sec-eyebrow">Step 01</div>
-  <div class="sec-title">기본 정보</div>
-  <p class="sec-desc">간단한 정보를 입력하면 AI가 맞춤 분석을 시작합니다.</p>
-  <div class="info-box">
-    <strong>💡 이렇게 활용하세요</strong><br>
-    육군 19개 병과 · 51개 세부특기 중 나에게 최적의 1~4지망을 추천해드립니다.
+  <!-- ── Step 01: 기본정보 ── -->
+  <div class="screen active" id="screen1">
+    <div class="sec-eyebrow">Step 01</div>
+    <div class="sec-title">기본 정보</div>
+    <p class="sec-desc">간단한 정보를 입력하면 AI가 맞춤 분석을 시작합니다.</p>
+    <div class="info-box">
+      <strong>💡 이렇게 활용하세요</strong><br>
+      육군 19개 병과 · 51개 세부특기 중 나에게 최적의 1~4지망을 추천해드립니다.
+    </div>
+    <div class="field"><label>이름 (선택)</label><input type="text" id="inp_name" placeholder="예: 홍길동"></div>
+    <div class="field"><label>나이</label><input type="text" id="inp_age" placeholder="예: 22"></div>
+    <div class="field">
+      <label>성별</label>
+      <select id="inp_gender">
+        <option value="">선택하세요</option>
+        <option value="남성">남성</option>
+        <option value="여성">여성</option>
+      </select>
+    </div>
+    <div class="error-msg" id="err1">나이와 성별을 입력해주세요.</div>
+    <button class="btn-primary" id="btn1">다음 단계 →</button>
   </div>
-  <div class="field"><label>이름 (선택)</label><input type="text" id="inp_name" placeholder="예: 홍길동"></div>
-  <div class="field"><label>나이</label><input type="text" id="inp_age" placeholder="예: 22"></div>
-  <div class="field">
-    <label>성별</label>
-    <select id="inp_gender">
-      <option value="">선택하세요</option>
-      <option value="남성">남성</option>
-      <option value="여성">여성</option>
-    </select>
-  </div>
-  <div class="error-msg" id="err1">나이와 성별을 입력해주세요.</div>
-  <button class="btn-primary" id="btn1">다음 단계 →</button>
-</div>
 
-<!-- ── Step 02: 학과·전공 ── -->
-<div class="screen" id="screen2">
-  <div class="sec-eyebrow">Step 02</div>
-  <div class="sec-title">학과 · 전공</div>
-  <p class="sec-desc">전공이 특기 매칭의 핵심 기준이 됩니다.</p>
-  <div class="field">
-    <label>최종학력</label>
-    <select id="inp_edu">
-      <option value="">선택하세요</option>
-      <option value="고등학교 졸업">고등학교 졸업</option>
-      <option value="2년제 재학/졸업">2년제 재학/졸업</option>
-      <option value="4년제 재학/졸업">4년제 재학/졸업</option>
-    </select>
+  <!-- ── Step 02: 학과·전공 ── -->
+  <div class="screen" id="screen2">
+    <div class="sec-eyebrow">Step 02</div>
+    <div class="sec-title">학과 · 전공</div>
+    <p class="sec-desc">전공이 특기 매칭의 핵심 기준이 됩니다.</p>
+    <div class="field">
+      <label>최종학력</label>
+      <select id="inp_edu">
+        <option value="">선택하세요</option>
+        <option value="고등학교 졸업">고등학교 졸업</option>
+        <option value="2년제 재학/졸업">2년제 재학/졸업</option>
+        <option value="4년제 재학/졸업">4년제 재학/졸업</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>학과 / 전공 계열</label>
+      <select id="inp_major">
+        <option value="">선택하세요</option>
+        <optgroup label="이공계">
+          <option value="기계공학">기계공학</option>
+          <option value="전기·전자공학">전기·전자공학</option>
+          <option value="컴퓨터·정보통신">컴퓨터·정보통신 (IT)</option>
+          <option value="화학·화공">화학·화공</option>
+          <option value="토목·건축">토목·건축</option>
+          <option value="항공·드론">항공·드론</option>
+          <option value="자동차공학">자동차공학</option>
+        </optgroup>
+        <optgroup label="자연계">
+          <option value="생물·의생명">생물·의생명</option>
+          <option value="물리·수학">물리·수학</option>
+        </optgroup>
+        <optgroup label="인문·사회">
+          <option value="경영·경제">경영·경제</option>
+          <option value="행정·법학">행정·법학</option>
+          <option value="사회복지">사회복지</option>
+          <option value="심리학">심리학</option>
+        </optgroup>
+        <optgroup label="예체능·외국어">
+          <option value="체육·스포츠">체육·스포츠</option>
+          <option value="음악·예술">음악·예술</option>
+          <option value="외국어">외국어</option>
+        </optgroup>
+        <optgroup label="보건·의료">
+          <option value="간호·보건">간호·보건</option>
+          <option value="응급구조">응급구조</option>
+        </optgroup>
+        <optgroup label="기타">
+          <option value="상업·유통">상업·유통</option>
+          <option value="기타">기타 / 해당 없음</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="field">
+      <label>세부 전공 / 특이사항 (선택)</label>
+      <textarea id="inp_majorDetail" placeholder="예: 드론 수업 이수, 정보보안 동아리 활동 등"></textarea>
+    </div>
+    <div class="error-msg" id="err2">학력과 전공을 선택해주세요.</div>
+    <button class="btn-primary" id="btn2">다음 단계 →</button>
+    <button class="btn-secondary" id="btn2b">← 이전</button>
   </div>
-  <div class="field">
-    <label>학과 / 전공 계열</label>
-    <select id="inp_major">
-      <option value="">선택하세요</option>
-      <optgroup label="이공계">
-        <option value="기계공학">기계공학</option>
-        <option value="전기·전자공학">전기·전자공학</option>
-        <option value="컴퓨터·정보통신">컴퓨터·정보통신 (IT)</option>
-        <option value="화학·화공">화학·화공</option>
-        <option value="토목·건축">토목·건축</option>
-        <option value="항공·드론">항공·드론</option>
-        <option value="자동차공학">자동차공학</option>
-      </optgroup>
-      <optgroup label="자연계">
-        <option value="생물·의생명">생물·의생명</option>
-        <option value="물리·수학">물리·수학</option>
-      </optgroup>
-      <optgroup label="인문·사회">
-        <option value="경영·경제">경영·경제</option>
-        <option value="행정·법학">행정·법학</option>
-        <option value="사회복지">사회복지</option>
-        <option value="심리학">심리학</option>
-      </optgroup>
-      <optgroup label="예체능·외국어">
-        <option value="체육·스포츠">체육·스포츠</option>
-        <option value="음악·예술">음악·예술</option>
-        <option value="외국어">외국어</option>
-      </optgroup>
-      <optgroup label="보건·의료">
-        <option value="간호·보건">간호·보건</option>
-        <option value="응급구조">응급구조</option>
-      </optgroup>
-      <optgroup label="기타">
-        <option value="상업·유통">상업·유통</option>
-        <option value="기타">기타 / 해당 없음</option>
-      </optgroup>
-    </select>
-  </div>
-  <div class="field">
-    <label>세부 전공 / 특이사항 (선택)</label>
-    <textarea id="inp_majorDetail" placeholder="예: 드론 수업 이수, 정보보안 동아리 활동 등"></textarea>
-  </div>
-  <div class="error-msg" id="err2">학력과 전공을 선택해주세요.</div>
-  <button class="btn-primary" id="btn2">다음 단계 →</button>
-  <button class="btn-secondary" id="btn2b">← 이전</button>
-</div>
 
-<!-- ── Step 03: 자격증 ── -->
-<div class="screen" id="screen3">
-  <div class="sec-eyebrow">Step 03</div>
-  <div class="sec-title">보유 자격증</div>
-  <p class="sec-desc">자격증이 있으면 정확도가 높아집니다. 없으면 건너뛰세요.</p>
-  <div class="tag-input-wrap">
-    <input type="text" id="certInput" placeholder="예: 정보처리기사, 운전면허 1종">
-    <button class="add-btn" id="addCertBtn">+</button>
+  <!-- ── Step 03: 자격증 ── -->
+  <div class="screen" id="screen3">
+    <div class="sec-eyebrow">Step 03</div>
+    <div class="sec-title">보유 자격증</div>
+    <p class="sec-desc">자격증이 있으면 정확도가 높아집니다. 없으면 건너뛰세요.</p>
+    <div class="tag-input-wrap">
+      <input type="text" id="certInput" placeholder="예: 정보처리기사, 운전면허 1종">
+      <button class="add-btn" id="addCertBtn">+</button>
+    </div>
+    <div class="tag-list" id="certList"></div>
+    <div class="info-box">
+      <strong>참고 예시</strong><br>
+      정보처리기사, 운전면허(대형·1종), 용접기능사, 전기기능사, 간호조무사, 응급구조사, 드론조종사, TOEIC 등
+    </div>
+    <button class="btn-primary" id="btn3">다음 단계 →</button>
+    <button class="btn-secondary" id="btn3b">← 이전</button>
   </div>
-  <div class="tag-list" id="certList"></div>
-  <div class="info-box">
-    <strong>참고 예시</strong><br>
-    정보처리기사, 운전면허(대형·1종), 용접기능사, 전기기능사, 간호조무사, 응급구조사, 드론조종사, TOEIC 등
-  </div>
-  <button class="btn-primary" id="btn3">다음 단계 →</button>
-  <button class="btn-secondary" id="btn3b">← 이전</button>
-</div>
 
-<!-- ── Step 04: 성격유형 ── -->
-<div class="screen" id="screen4">
-  <div class="sec-eyebrow">Step 04</div>
-  <div class="sec-title">성격 유형</div>
-  <p class="sec-desc">해당하는 키워드를 모두 선택하세요. (최소 2개)</p>
-  <div class="chip-label">리더십 스타일</div>
-  <div class="chip-grid">
-    <div class="chip">솔선수범형</div>
-    <div class="chip">분석·계획형</div>
-    <div class="chip">조율·협력형</div>
-    <div class="chip">독립·자율형</div>
+  <!-- ── Step 04: 성격유형 ── -->
+  <div class="screen" id="screen4">
+    <div class="sec-eyebrow">Step 04</div>
+    <div class="sec-title">성격 유형</div>
+    <p class="sec-desc">해당하는 키워드를 모두 선택하세요. (최소 2개)</p>
+    <div class="chip-label">리더십 스타일</div>
+    <div class="chip-grid">
+      <div class="chip">솔선수범형</div>
+      <div class="chip">분석·계획형</div>
+      <div class="chip">조율·협력형</div>
+      <div class="chip">독립·자율형</div>
+    </div>
+    <div class="chip-label">업무 성향</div>
+    <div class="chip-grid">
+      <div class="chip">꼼꼼·세심</div>
+      <div class="chip">창의·아이디어</div>
+      <div class="chip">체력·현장지향</div>
+      <div class="chip">기술·전문직지향</div>
+      <div class="chip">소통·봉사지향</div>
+      <div class="chip">도전·모험지향</div>
+    </div>
+    <div class="chip-label">선호 환경</div>
+    <div class="chip-grid">
+      <div class="chip">야외·현장</div>
+      <div class="chip">실내·사무</div>
+      <div class="chip">첨단장비 운용</div>
+      <div class="chip">대인관계 중심</div>
+      <div class="chip">정보·분석</div>
+    </div>
+    <div class="field" style="margin-top:4px">
+      <label>추가 특성 (선택)</label>
+      <textarea id="inp_extra" placeholder="예: 침착함, 외국어 능통, 팀워크 중시 등"></textarea>
+    </div>
+    <div class="error-msg" id="err4">성격 키워드를 최소 2개 이상 선택해주세요.</div>
+    <button class="btn-primary" id="btn4">🎯 AI 특기 추천 받기</button>
+    <button class="btn-secondary" id="btn4b">← 이전</button>
   </div>
-  <div class="chip-label">업무 성향</div>
-  <div class="chip-grid">
-    <div class="chip">꼼꼼·세심</div>
-    <div class="chip">창의·아이디어</div>
-    <div class="chip">체력·현장지향</div>
-    <div class="chip">기술·전문직지향</div>
-    <div class="chip">소통·봉사지향</div>
-    <div class="chip">도전·모험지향</div>
-  </div>
-  <div class="chip-label">선호 환경</div>
-  <div class="chip-grid">
-    <div class="chip">야외·현장</div>
-    <div class="chip">실내·사무</div>
-    <div class="chip">첨단장비 운용</div>
-    <div class="chip">대인관계 중심</div>
-    <div class="chip">정보·분석</div>
-  </div>
-  <div class="field" style="margin-top:4px">
-    <label>추가 특성 (선택)</label>
-    <textarea id="inp_extra" placeholder="예: 침착함, 외국어 능통, 팀워크 중시 등"></textarea>
-  </div>
-  <div class="error-msg" id="err4">성격 키워드를 최소 2개 이상 선택해주세요.</div>
-  <button class="btn-primary" id="btn4">🎯 AI 특기 추천 받기</button>
-  <button class="btn-secondary" id="btn4b">← 이전</button>
-</div>
 
-<!-- ── 로딩 ── -->
-<div class="screen" id="screenLoading">
-  <div class="loading-wrap">
-    <div class="loading-spinner"><span class="loading-icon">⭐</span></div>
-    <div class="loading-title">분석 중<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
-    <div class="loading-sub">입력 데이터를 기반으로<br>최적의 병과 특기를 찾는 중</div>
-    <div class="loading-steps">
-      <div class="l-step"><div class="l-dot"></div>전공 계열 분석 완료</div>
-      <div class="l-step"><div class="l-dot"></div>자격증 매칭 검토 중</div>
-      <div class="l-step"><div class="l-dot"></div>성격 유형 적합도 계산</div>
-      <div class="l-step"><div class="l-dot"></div>최적 특기 선정 중</div>
+  <!-- ── 로딩 ── -->
+  <div class="screen" id="screenLoading">
+    <div class="loading-wrap">
+      <div class="loading-spinner"><span class="loading-icon">⭐</span></div>
+      <div class="loading-title">분석 중<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
+      <div class="loading-sub">입력 데이터를 기반으로<br>최적의 병과 특기를 찾는 중</div>
+      <div class="loading-steps">
+        <div class="l-step">
+          <div class="l-dot"></div>전공 계열 분석 완료
+        </div>
+        <div class="l-step">
+          <div class="l-dot"></div>자격증 매칭 검토 중
+        </div>
+        <div class="l-step">
+          <div class="l-dot"></div>성격 유형 적합도 계산
+        </div>
+        <div class="l-step">
+          <div class="l-dot"></div>최적 특기 선정 중
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ── 결과 페이지 ── -->
-<div id="screenResult" style="display:none;">
-  <div class="result-hero">
-    <div class="result-hero-label">🎖️ AI 추천 결과</div>
-    <div class="result-hero-name" id="resultName">지원자<span>님의 맞춤 특기</span></div>
-    <div class="result-hero-sub" id="resultSub"></div>
-  </div>
-  <div class="rank-strip-header">
+  <!-- ── 결과 페이지 ── -->
+  <div id="screenResult" style="display:none;">
+    <div class="result-hero">
+      <div class="result-hero-label">🎖️ AI 추천 결과</div>
+      <div class="result-hero-name" id="resultName">지원자<span>님의 맞춤 특기</span></div>
+      <div class="result-hero-sub" id="resultSub"></div>
+    </div>
     <div class="rank-strip-label">📌 지망순위 추천 특기 (카드 클릭 → 상세 정보)</div>
-    <a href="https://m-recruit.mnd.go.kr/" target="_blank" class="btn-apply-small">지원서 작성 📝</a>
-  </div>
-  <div class="rank-scroll-wrap"><div class="rank-grid" id="rankGrid"></div></div>
-  <div id="detailPanel" style="display:none;"></div>
-  <div class="olive-divider"></div>
-  <div class="explorer-section">
-    <div class="explorer-title">🗂 전체 병과 탐색</div>
-    <div class="explorer-desc">추천 외 다른 병과·특기도 직접 클릭해서 알아보세요.</div>
-    <div class="cat-tabs" id="catTabs">
-      <div class="cat-tab active" data-cat="전체">전체</div>
-      <div class="cat-tab" data-cat="전투병과">전투병과</div>
-      <div class="cat-tab" data-cat="기술병과">기술병과</div>
-      <div class="cat-tab" data-cat="행정병과">행정병과</div>
-      <div class="cat-tab" data-cat="특수병과">특수병과</div>
+    <div class="rank-scroll-wrap">
+      <div class="rank-grid" id="rankGrid"></div>
     </div>
-    <div class="corps-grid" id="corpsGrid"></div>
+    <div id="detailPanel" style="display:none;"></div>
+    <div class="olive-divider"></div>
+    <div class="explorer-section">
+      <div class="explorer-title">🗂 전체 병과 탐색</div>
+      <div class="explorer-desc">추천 외 다른 병과·특기도 직접 클릭해서 알아보세요.</div>
+      <div class="cat-tabs" id="catTabs">
+        <div class="cat-tab active" data-cat="전체">전체</div>
+        <div class="cat-tab" data-cat="전투병과">전투병과</div>
+        <div class="cat-tab" data-cat="기술병과">기술병과</div>
+        <div class="cat-tab" data-cat="행정병과">행정병과</div>
+        <div class="cat-tab" data-cat="특수병과">특수병과</div>
+      </div>
+      <div class="corps-grid" id="corpsGrid"></div>
+    </div>
+    <div class="olive-divider"></div>
+    <div class="reset-wrap">
+      <p>결과는 참고용이며, 실제 지원 시<br>모집 요강과 특기별 지원 자격을 반드시 확인하세요.</p>
+      <button class="btn-primary" id="btnReset">🔄 다시 추천받기</button>
+    </div>
   </div>
-  <div class="olive-divider"></div>
-  <div class="reset-wrap">
-    <p>결과는 참고용이며, 실제 지원 시<br>모집 요강과 특기별 지원 자격을 반드시 확인하세요.</p>
-    <button class="btn-primary" id="btnReset">🔄 다시 추천받기</button>
-  </div>
-</div>
 
-<script src="app.js"></script>
+  <div class="site-footer">
+    <p>© 2026 ROK ARMY 간부 병과 추천 서비스. All rights reserved.</p>
+    <p>본 결과는 AI 매칭 알고리즘 기반의 추천 정보이며, 실제 지원 시 모집 요강과 특기별 지원 자격을 반드시 확인하시기 바랍니다.</p>
+  </div>
+
+  <script src="app.js"></script>
 </body>
+
 </html>

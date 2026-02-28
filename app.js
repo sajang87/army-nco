@@ -5,7 +5,7 @@
      상태 변수
   ═══════════════════════════════════════════════ */
   var certs = [], profile = {}, activeCardIdx = -1,
-      openCorpsName = null, openSpecId = null, lastRecs = [];
+    openCorpsName = null, openSpecId = null, lastRecs = [];
 
   /* ═══════════════════════════════════════════════
      화면 전환
@@ -18,14 +18,14 @@
 
   function showResultPage(show) {
     var nav = document.getElementById('stepsNav');
-    var rp  = document.getElementById('screenResult');
+    var rp = document.getElementById('screenResult');
     document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
     if (show) {
-      rp.style.display  = 'block';
+      rp.style.display = 'block';
       nav.style.display = 'none';
       window.scrollTo(0, 0);
     } else {
-      rp.style.display  = 'none';
+      rp.style.display = 'none';
       nav.style.display = 'flex';
     }
   }
@@ -34,8 +34,8 @@
     for (var i = 1; i <= 4; i++) {
       var b = document.getElementById('stepBtn' + i);
       b.classList.remove('active', 'done');
-      if (i === n)     b.classList.add('active');
-      else if (i < n)  b.classList.add('done');
+      if (i === n) b.classList.add('active');
+      else if (i < n) b.classList.add('done');
     }
   }
 
@@ -71,15 +71,15 @@
     var pers = [];
     sel.forEach(function (c) { pers.push(c.textContent.trim()); });
     profile = {
-      name:        document.getElementById('inp_name').value.trim() || '지원자',
-      age:         document.getElementById('inp_age').value.trim(),
-      gender:      document.getElementById('inp_gender').value,
-      edu:         document.getElementById('inp_edu').value,
-      major:       document.getElementById('inp_major').value,
+      name: document.getElementById('inp_name').value.trim() || '지원자',
+      age: document.getElementById('inp_age').value.trim(),
+      gender: document.getElementById('inp_gender').value,
+      edu: document.getElementById('inp_edu').value,
+      major: document.getElementById('inp_major').value,
       majorDetail: document.getElementById('inp_majorDetail').value,
-      certs:       certs.slice(),
+      certs: certs.slice(),
       personality: pers,
-      extra:       document.getElementById('inp_extra').value
+      extra: document.getElementById('inp_extra').value
     };
     showScreen('screenLoading');
     document.getElementById('stepsNav').style.display = 'none';
@@ -122,33 +122,35 @@
      병과 · 특기 데이터
   ═══════════════════════════════════════════════ */
   var CORPS = {
-    '보병':    { icon: '🪖', cat: '전투병과', subs: [{ id: 'T101', name: '일반보병',    tag: '지상전투 핵심' }, { id: 'T102', name: '특전보병',    tag: '특수전'     }, { id: 'T103', name: '특임보병',    tag: '특수임무'   }] },
-    '기갑':    { icon: '🛡️', cat: '전투병과', subs: [{ id: 'T201', name: '전차승무',    tag: '기계화 전투'  }, { id: 'T202', name: '전차정비',    tag: '기갑 정비'  }, { id: 'T203', name: '장갑차',      tag: '장갑차 운용' }] },
-    '포병':    { icon: '💥', cat: '전투병과', subs: [{ id: 'T301', name: '야전포병',    tag: '장거리화력'   }, { id: 'T302', name: '로켓포병',    tag: '다연장로켓' }, { id: 'T303', name: '포병표적',    tag: '표적획득'   }] },
-    '방공':    { icon: '🎯', cat: '전투병과', subs: [{ id: 'T402', name: '방공무기 운용', tag: '대공방어'   }] },
-    '정보':    { icon: '🔭', cat: '전투병과', subs: [{ id: 'T501', name: '인간정보',    tag: 'HUMINT'      }, { id: 'T502', name: '신호정보',    tag: 'SIGINT'     }, { id: 'T503', name: '영상정보',    tag: 'IMINT'      }, { id: 'T504', name: '방첩',        tag: '방첩'        }, { id: 'T506', name: '드론/UAV운용', tag: '무인항공'  }] },
-    '공병':    { icon: '⚙️', cat: '전투병과', subs: [{ id: 'T601', name: '전투공병',    tag: '장애물·도하' }, { id: 'T602', name: '시설공병',    tag: '토목·건축'  }, { id: 'T603', name: '공병장비및정비', tag: '공병장비' }] },
-    '정보통신': { icon: '📡', cat: '전투병과', subs: [{ id: 'T701', name: '전술통신운용', tag: '전술통신'   }, { id: 'T702', name: '특수통신운용', tag: '특수통신'   }, { id: 'T703', name: '사이버,정보체계운용', tag: '사이버·IT' }] },
-    '항공':    { icon: '✈️', cat: '전투병과', subs: [{ id: 'T801', name: '항공운항',    tag: '헬기 조종'   }, { id: 'T802', name: '항공정비',    tag: '항공 정비'  }] },
-    '화학':    { icon: '☣️', cat: '기술병과', subs: [{ id: 'K101', name: '화생방작전',  tag: 'CBRN 방호'   }] },
-    '병참':    { icon: '📦', cat: '기술병과', subs: [{ id: 'K201', name: '물자보급',    tag: '군수지원'    }, { id: 'K202', name: '조리',        tag: '급식·조리'  }] },
-    '수송':    { icon: '🚛', cat: '기술병과', subs: [{ id: 'K301', name: '수송운용',    tag: '차량수송'    }, { id: 'K302', name: '이동관리',    tag: '이동통제'   }, { id: 'K303', name: '항만운용',    tag: '항만지원'   }] },
-    '병기':    { icon: '🔧', cat: '기술병과', subs: [
-      { id: 'K401', name: '대공포정비',       tag: '방공정비'      }, { id: 'K402', name: '로켓정비',       tag: '로켓정비'      },
-      { id: 'K403', name: '유도무기정비',     tag: '유도무기'      }, { id: 'K404', name: '총포정비',       tag: '총포정비'      },
-      { id: 'K405', name: '광학및감시장비정비', tag: '광학·감시'   }, { id: 'K406', name: '전차및장갑차정비', tag: '기갑정비'    },
-      { id: 'K407', name: '자주포정비',       tag: '자주포'        }, { id: 'K408', name: '전술통신정비',   tag: '통신정비'      },
-      { id: 'K409', name: '특수통신정비',     tag: '특수통신정비'  }, { id: 'K410', name: '차량정비',       tag: '차량정비'      },
-      { id: 'K411', name: '공병 중장비정비',  tag: '공병 중장비정비' }, { id: 'K412', name: '탄약관리',     tag: '탄약'          },
-      { id: 'K413', name: '장비수리부속관리', tag: '수리부속'      }
-    ]},
-    '인사':    { icon: '📋', cat: '행정병과', subs: [{ id: 'A101', name: '인사',        tag: '인사행정'    }] },
-    '군사경찰': { icon: '🚔', cat: '행정병과', subs: [{ id: 'A201', name: '군사경찰',    tag: '법집행·수사' }, { id: 'A202', name: '수사',        tag: '범죄수사'   }] },
-    '재정':    { icon: '💰', cat: '행정병과', subs: [{ id: 'A301', name: '재정',        tag: '회계·예산'   }] },
-    '정훈':    { icon: '📢', cat: '행정병과', subs: [{ id: 'A401', name: '정훈',        tag: '정신교육·홍보' }, { id: 'A501', name: '군악',      tag: '음악·의전'  }] },
-    '의무':    { icon: '🏥', cat: '특수병과', subs: [{ id: 'S101', name: '의무',        tag: '의료·간호'   }] },
-    '법무':    { icon: '⚖️', cat: '특수병과', subs: [{ id: 'S201', name: '법무',        tag: '군사법'      }] },
-    '군종':    { icon: '🕊️', cat: '특수병과', subs: [{ id: 'S301', name: '군종',        tag: '종교·정신전력' }] }
+    '보병': { icon: '🪖', cat: '전투병과', subs: [{ id: 'T101', name: '일반보병', tag: '지상전투 핵심' }, { id: 'T102', name: '특전보병', tag: '특수전' }, { id: 'T103', name: '특임보병', tag: '특수임무' }] },
+    '기갑': { icon: '🛡️', cat: '전투병과', subs: [{ id: 'T201', name: '전차승무', tag: '기계화 전투' }, { id: 'T202', name: '전차정비', tag: '기갑 정비' }, { id: 'T203', name: '장갑차', tag: '장갑차 운용' }] },
+    '포병': { icon: '💥', cat: '전투병과', subs: [{ id: 'T301', name: '야전포병', tag: '장거리화력' }, { id: 'T302', name: '로켓포병', tag: '다연장로켓' }, { id: 'T303', name: '포병표적', tag: '표적획득' }] },
+    '방공': { icon: '🎯', cat: '전투병과', subs: [{ id: 'T402', name: '방공무기 운용', tag: '대공방어' }] },
+    '정보': { icon: '🔭', cat: '전투병과', subs: [{ id: 'T501', name: '인간정보', tag: 'HUMINT' }, { id: 'T502', name: '신호정보', tag: 'SIGINT' }, { id: 'T503', name: '영상정보', tag: 'IMINT' }, { id: 'T504', name: '방첩', tag: '방첩' }, { id: 'T506', name: '드론/UAV운용', tag: '무인항공' }] },
+    '공병': { icon: '⚙️', cat: '전투병과', subs: [{ id: 'T601', name: '전투공병', tag: '장애물·도하' }, { id: 'T602', name: '시설공병', tag: '토목·건축' }, { id: 'T603', name: '공병장비및정비', tag: '공병장비' }] },
+    '정보통신': { icon: '📡', cat: '전투병과', subs: [{ id: 'T701', name: '전술통신운용', tag: '전술통신' }, { id: 'T702', name: '특수통신운용', tag: '특수통신' }, { id: 'T703', name: '사이버,정보체계운용', tag: '사이버·IT' }] },
+    '항공': { icon: '✈️', cat: '전투병과', subs: [{ id: 'T801', name: '항공운항', tag: '헬기 조종' }, { id: 'T802', name: '항공정비', tag: '항공 정비' }] },
+    '화학': { icon: '☣️', cat: '기술병과', subs: [{ id: 'K101', name: '화생방작전', tag: 'CBRN 방호' }] },
+    '병참': { icon: '📦', cat: '기술병과', subs: [{ id: 'K201', name: '물자보급', tag: '군수지원' }, { id: 'K202', name: '조리', tag: '급식·조리' }] },
+    '수송': { icon: '🚛', cat: '기술병과', subs: [{ id: 'K301', name: '수송운용', tag: '차량수송' }, { id: 'K302', name: '이동관리', tag: '이동통제' }, { id: 'K303', name: '항만운용', tag: '항만지원' }] },
+    '병기': {
+      icon: '🔧', cat: '기술병과', subs: [
+        { id: 'K401', name: '대공포정비', tag: '방공정비' }, { id: 'K402', name: '로켓정비', tag: '로켓정비' },
+        { id: 'K403', name: '유도무기정비', tag: '유도무기' }, { id: 'K404', name: '총포정비', tag: '총포정비' },
+        { id: 'K405', name: '광학및감시장비정비', tag: '광학·감시' }, { id: 'K406', name: '전차및장갑차정비', tag: '기갑정비' },
+        { id: 'K407', name: '자주포정비', tag: '자주포' }, { id: 'K408', name: '전술통신정비', tag: '통신정비' },
+        { id: 'K409', name: '특수통신정비', tag: '특수통신정비' }, { id: 'K410', name: '차량정비', tag: '차량정비' },
+        { id: 'K411', name: '공병 중장비정비', tag: '공병 중장비정비' }, { id: 'K412', name: '탄약관리', tag: '탄약' },
+        { id: 'K413', name: '장비수리부속관리', tag: '수리부속' }
+      ]
+    },
+    '인사': { icon: '📋', cat: '행정병과', subs: [{ id: 'A101', name: '인사', tag: '인사행정' }] },
+    '군사경찰': { icon: '🚔', cat: '행정병과', subs: [{ id: 'A201', name: '군사경찰', tag: '법집행·수사' }, { id: 'A202', name: '수사', tag: '범죄수사' }] },
+    '재정': { icon: '💰', cat: '행정병과', subs: [{ id: 'A301', name: '재정', tag: '회계·예산' }] },
+    '정훈': { icon: '📢', cat: '행정병과', subs: [{ id: 'A401', name: '정훈', tag: '정신교육·홍보' }, { id: 'A501', name: '군악', tag: '음악·의전' }] },
+    '의무': { icon: '🏥', cat: '특수병과', subs: [{ id: 'S101', name: '의무', tag: '의료·간호' }] },
+    '법무': { icon: '⚖️', cat: '특수병과', subs: [{ id: 'S201', name: '법무', tag: '군사법' }] },
+    '군종': { icon: '🕊️', cat: '특수병과', subs: [{ id: 'S301', name: '군종', tag: '종교·정신전력' }] }
   };
 
   /* ═══════════════════════════════════════════════
@@ -233,38 +235,38 @@
       if (!scores[id]) return;
       scores[id].score += pts;
       if (isMajor) scores[id].majorMatch = true;
-      if (isCert)  scores[id].certMatch  = true;
+      if (isCert) scores[id].certMatch = true;
       if (reason && scores[id].reasons.indexOf(reason) === -1) scores[id].reasons.push(reason);
     }
 
-    var m    = p.major;
+    var m = p.major;
     var pers = p.personality.join(' ');
-    var cs   = p.certs.join(' ').toLowerCase();
+    var cs = p.certs.join(' ').toLowerCase();
 
     /* ── 전공 매핑 ── */
     var MAJOR_MAP = {
-      '컴퓨터·정보통신': [['T703',80,'IT·정보통신 전공 직결'],['T502',40,'전자·통신 전공'],['T701',30,'통신 전공'],['K408',20,'전기전자 연관']],
-      '전기·전자공학':   [['K408',75,'전기전자 전공 직결'],['K409',60,'전기전자 전공'],['T701',35,'통신 전공'],['K403',30,'전자 전공'],['T703',20,'IT 연관']],
-      '기계공학':        [['K406',75,'기계공학 전공 직결'],['K410',60,'기계·자동차 전공'],['T603',50,'공병 장비 전공'],['K411',40,'건설기계 연관'],['T602',20,'건설 연관']],
-      '항공·드론':       [['T802',80,'항공 전공 직결'],['T506',80,'드론 전공 직결'],['T801',55,'항공 전공']],
-      '화학·화공':       [['K101',85,'화학·화공 전공 직결'],['K402',30,'이공계 연관']],
-      '토목·건축':       [['T602',80,'토목·건축 전공 직결'],['T603',50,'공병장비 연관'],['K411',40,'건설기계 연관']],
-      '자동차공학':      [['K410',80,'자동차공학 전공 직결'],['K406',55,'기계·자동차 전공'],['T603',25,'장비 연관']],
-      '간호·보건':       [['S101',90,'간호·보건 전공 직결']],
-      '응급구조':        [['S101',90,'응급구조 전공 직결']],
-      '체육·스포츠':     [['T101',70,'체육 전공'],['T102',60,'체육·특전 전공'],['T103',50,'체육 전공'],['T201',30,'체력 중심']],
-      '외국어':          [['T501',80,'외국어 전공 직결'],['T502',35,'외국어·통신 전공'],['A401',30,'홍보·교육 연관']],
-      '경영·경제':       [['A301',75,'경영·경제 전공 직결'],['K201',55,'물류·경영 전공'],['K413',40,'물류·경영 전공'],['K302',25,'이동관리 연관']],
-      '행정·법학':       [['S201',75,'법학 전공 직결'],['A202',65,'법학·수사 전공'],['A101',50,'행정 전공']],
-      '심리학':          [['S301',65,'심리·상담 전공'],['A401',50,'교육·심리 전공'],['A101',25,'인사 연관']],
-      '음악·예술':       [['A501',90,'음악·예술 전공 직결'],['A401',35,'홍보·예술 연관']],
-      '생물·의생명':     [['K101',60,'생물·화학 전공'],['S101',40,'의생명 연관']],
-      '물리·수학':       [['T303',55,'이공계·물리 전공'],['T502',45,'이공계 전공'],['K403',40,'이공계 전공'],['T701',25,'통신 연관']],
-      '사회복지':        [['S301',70,'사회복지 전공 직결'],['A401',45,'교육·복지 전공'],['A101',25,'행정 연관']],
-      '상업·유통':       [['K201',70,'물류·유통 전공 직결'],['A301',50,'상경계 전공'],['K413',40,'수리부속 관리 연관'],['K302',25,'이동관리 연관']],
-      '언론·미디어':     [['A401',75,'정훈·홍보 전공 직결'],['T501',30,'커뮤니케이션 연관']],
-      '교육학':          [['A401',65,'교육 전공'],['S301',40,'상담·교육 연관'],['A101',25,'행정 연관']],
-      '기타':            [['T101',30,'전투 기본'],['A101',20,'행정'],['K201',20,'보급']]
+      '컴퓨터·정보통신': [['T703', 80, 'IT·정보통신 전공 직결'], ['T502', 40, '전자·통신 전공'], ['T701', 30, '통신 전공'], ['K408', 20, '전기전자 연관']],
+      '전기·전자공학': [['K408', 75, '전기전자 전공 직결'], ['K409', 60, '전기전자 전공'], ['T701', 35, '통신 전공'], ['K403', 30, '전자 전공'], ['T703', 20, 'IT 연관']],
+      '기계공학': [['K406', 75, '기계공학 전공 직결'], ['K410', 60, '기계·자동차 전공'], ['T603', 50, '공병 장비 전공'], ['K411', 40, '건설기계 연관'], ['T602', 20, '건설 연관']],
+      '항공·드론': [['T802', 80, '항공 전공 직결'], ['T506', 80, '드론 전공 직결'], ['T801', 55, '항공 전공']],
+      '화학·화공': [['K101', 85, '화학·화공 전공 직결'], ['K402', 30, '이공계 연관']],
+      '토목·건축': [['T602', 80, '토목·건축 전공 직결'], ['T603', 50, '공병장비 연관'], ['K411', 40, '건설기계 연관']],
+      '자동차공학': [['K410', 80, '자동차공학 전공 직결'], ['K406', 55, '기계·자동차 전공'], ['T603', 25, '장비 연관']],
+      '간호·보건': [['S101', 90, '간호·보건 전공 직결']],
+      '응급구조': [['S101', 90, '응급구조 전공 직결']],
+      '체육·스포츠': [['T101', 70, '체육 전공'], ['T102', 60, '체육·특전 전공'], ['T103', 50, '체육 전공'], ['T201', 30, '체력 중심']],
+      '외국어': [['T501', 80, '외국어 전공 직결'], ['T502', 35, '외국어·통신 전공'], ['A401', 30, '홍보·교육 연관']],
+      '경영·경제': [['A301', 75, '경영·경제 전공 직결'], ['K201', 55, '물류·경영 전공'], ['K413', 40, '물류·경영 전공'], ['K302', 25, '이동관리 연관']],
+      '행정·법학': [['S201', 75, '법학 전공 직결'], ['A202', 65, '법학·수사 전공'], ['A101', 50, '행정 전공']],
+      '심리학': [['S301', 65, '심리·상담 전공'], ['A401', 50, '교육·심리 전공'], ['A101', 25, '인사 연관']],
+      '음악·예술': [['A501', 90, '음악·예술 전공 직결'], ['A401', 35, '홍보·예술 연관']],
+      '생물·의생명': [['K101', 60, '생물·화학 전공'], ['S101', 40, '의생명 연관']],
+      '물리·수학': [['T303', 55, '이공계·물리 전공'], ['T502', 45, '이공계 전공'], ['K403', 40, '이공계 전공'], ['T701', 25, '통신 연관']],
+      '사회복지': [['S301', 70, '사회복지 전공 직결'], ['A401', 45, '교육·복지 전공'], ['A101', 25, '행정 연관']],
+      '상업·유통': [['K201', 70, '물류·유통 전공 직결'], ['A301', 50, '상경계 전공'], ['K413', 40, '수리부속 관리 연관'], ['K302', 25, '이동관리 연관']],
+      '언론·미디어': [['A401', 75, '정훈·홍보 전공 직결'], ['T501', 30, '커뮤니케이션 연관']],
+      '교육학': [['A401', 65, '교육 전공'], ['S301', 40, '상담·교육 연관'], ['A101', 25, '행정 연관']],
+      '기타': [['T101', 30, '전투 기본'], ['A101', 20, '행정'], ['K201', 20, '보급']]
     };
     if (MAJOR_MAP[m]) {
       for (var mi = 0; mi < MAJOR_MAP[m].length; mi++) {
@@ -274,52 +276,52 @@
 
     /* ── 자격증 매핑 ── */
     var CERT_MAP = [
-      [['간호사','간호','nurse'],                                                        [['S101',90,'간호사 자격증 보유']]],
-      [['간호조무사'],                                                                   [['S101',75,'간호조무사 자격증 보유']]],
-      [['응급구조사','응급구조','emt'],                                                   [['S101',80,'응급구조사 자격증 보유']]],
-      [['의료기사','임상병리'],                                                           [['S101',55,'의료 관련 자격증 보유']]],
-      [['정보처리기사','정보처리산업기사','정보처리'],                                    [['T703',70,'정보처리 자격증 보유'],['T701',35,'통신 연관']]],
-      [['네트워크관리사','네트워크'],                                                     [['T703',55,'네트워크 자격증 보유'],['T701',30,'통신 연관']]],
-      [['정보보안기사','정보보안'],                                                       [['T703',65,'정보보안 자격증 보유']]],
-      [['리눅스마스터','리눅스'],                                                         [['T703',50,'리눅스 자격증 보유']]],
-      [['전기기사','전기산업기사'],                                                       [['K408',65,'전기기사 자격증 보유'],['T701',25,'통신 연관']]],
-      [['전기기능사'],                                                                   [['K408',50,'전기기능사 자격증 보유']]],
-      [['전자기기기능사','전자기기'],                                                     [['K408',45,'전자기기 자격증 보유'],['K409',40,'전기전자 연관']]],
-      [['자동차정비기사','자동차정비산업기사','자동차정비'],                               [['K410',80,'자동차정비 자격증 보유'],['K406',35,'기계 연관']]],
-      [['자동차정비기능사'],                                                             [['K410',65,'자동차정비 자격증 보유']]],
-      [['건설기계기사','건설기계산업기사','건설기계'],                                    [['K411',75,'건설기계 자격증 보유'],['T602',35,'공병 연관']]],
-      [['건설기계정비기능사','건설기계정비'],                                             [['K411',60,'건설기계정비 자격증 보유']]],
-      [['기계정비기능사','기계정비'],                                                     [['K406',55,'기계정비 자격증 보유'],['K410',35,'차량정비 연관']]],
-      [['용접기능사','용접'],                                                             [['T601',50,'용접 자격증 보유'],['T602',40,'시설공병 연관']]],
-      [['조종사','항공기조종'],                                                           [['T801',85,'조종 자격증 보유'],['T506',40,'드론 연관']]],
-      [['항공정비사','항공정비기사','항공정비'],                                           [['T802',85,'항공정비 자격증 보유']]],
-      [['무인동력비행장치','드론자격','드론'],                                             [['T506',85,'드론 자격증 보유'],['T802',20,'항공 연관']]],
-      [['위험물산업기사','위험물기능사','위험물'],                                         [['K101',70,'위험물 자격증 보유'],['K402',35,'로켓정비 연관'],['K412',30,'탄약관리 연관']]],
-      [['화학분석기사','화학분석기능사','화학분석'],                                      [['K101',65,'화학분석 자격증 보유']]],
-      [['토목기사','토목산업기사','토목기능사'],                                           [['T602',75,'토목 자격증 보유'],['T603',35,'공병장비 연관']]],
-      [['건축기사','건축산업기사'],                                                       [['T602',65,'건축 자격증 보유']]],
-      [['대형운전면허','대형1종','1종대형'],                                               [['K301',85,'대형면허 보유'],['K302',30,'이동관리 연관']]],
-      [['1종보통','운전면허1종'],                                                         [['K301',55,'1종보통 면허 보유'],['K410',20,'차량 연관']]],
-      [['2종보통','운전면허'],                                                             [['K301',30,'운전면허 보유']]],
-      [['toeic','토익'],                                                                 [['T501',60,'영어(토익) 보유'],['A401',25,'홍보 연관']]],
-      [['토플','toefl'],                                                                 [['T501',65,'영어(토플) 보유']]],
-      [['jlpt','일본어능력시험'],                                                         [['T501',55,'일본어능력 보유']]],
-      [['hsk','중국어'],                                                                 [['T501',55,'중국어능력 보유']]],
-      [['조리기능사','조리산업기사','조리기사','한식','양식','중식','일식','제과','제빵'], [['K202',85,'조리 자격증 보유']]],
-      [['회계사','공인회계사','cpa'],                                                     [['A301',75,'회계사 자격증 보유']]],
-      [['세무사'],                                                                       [['A301',65,'세무사 자격증 보유']]],
-      [['전산회계','erp'],                                                               [['A301',50,'전산회계 자격증 보유'],['A101',25,'행정 연관']]],
-      [['물류관리사'],                                                                   [['K201',70,'물류관리사 자격증 보유'],['K302',30,'이동관리 연관']]],
-      [['경찰공무원','경찰'],                                                             [['A202',65,'경찰 관련 자격 보유'],['A201',50,'군사경찰 연관']]],
-      [['무도','태권도','유도','검도','합기도','주짓수'],                                  [['A201',55,'무도 자격증 보유'],['T101',35,'전투 연관']]],
-      [['음악','피아노','바이올린','플루트','클라리넷','색소폰','트럼펫','타악기','지휘'], [['A501',85,'음악 자격·전공 보유']]],
-      [['사회복지사'],                                                                   [['S301',70,'사회복지사 자격증 보유'],['A401',30,'교육·복지 연관']]]
+      [['간호사', '간호', 'nurse'], [['S101', 90, '간호사 자격증 보유']]],
+      [['간호조무사'], [['S101', 75, '간호조무사 자격증 보유']]],
+      [['응급구조사', '응급구조', 'emt'], [['S101', 80, '응급구조사 자격증 보유']]],
+      [['의료기사', '임상병리'], [['S101', 55, '의료 관련 자격증 보유']]],
+      [['정보처리기사', '정보처리산업기사', '정보처리'], [['T703', 70, '정보처리 자격증 보유'], ['T701', 35, '통신 연관']]],
+      [['네트워크관리사', '네트워크'], [['T703', 55, '네트워크 자격증 보유'], ['T701', 30, '통신 연관']]],
+      [['정보보안기사', '정보보안'], [['T703', 65, '정보보안 자격증 보유']]],
+      [['리눅스마스터', '리눅스'], [['T703', 50, '리눅스 자격증 보유']]],
+      [['전기기사', '전기산업기사'], [['K408', 65, '전기기사 자격증 보유'], ['T701', 25, '통신 연관']]],
+      [['전기기능사'], [['K408', 50, '전기기능사 자격증 보유']]],
+      [['전자기기기능사', '전자기기'], [['K408', 45, '전자기기 자격증 보유'], ['K409', 40, '전기전자 연관']]],
+      [['자동차정비기사', '자동차정비산업기사', '자동차정비'], [['K410', 80, '자동차정비 자격증 보유'], ['K406', 35, '기계 연관']]],
+      [['자동차정비기능사'], [['K410', 65, '자동차정비 자격증 보유']]],
+      [['건설기계기사', '건설기계산업기사', '건설기계'], [['K411', 75, '건설기계 자격증 보유'], ['T602', 35, '공병 연관']]],
+      [['건설기계정비기능사', '건설기계정비'], [['K411', 60, '건설기계정비 자격증 보유']]],
+      [['기계정비기능사', '기계정비'], [['K406', 55, '기계정비 자격증 보유'], ['K410', 35, '차량정비 연관']]],
+      [['용접기능사', '용접'], [['T601', 50, '용접 자격증 보유'], ['T602', 40, '시설공병 연관']]],
+      [['조종사', '항공기조종'], [['T801', 85, '조종 자격증 보유'], ['T506', 40, '드론 연관']]],
+      [['항공정비사', '항공정비기사', '항공정비'], [['T802', 85, '항공정비 자격증 보유']]],
+      [['무인동력비행장치', '드론자격', '드론'], [['T506', 85, '드론 자격증 보유'], ['T802', 20, '항공 연관']]],
+      [['위험물산업기사', '위험물기능사', '위험물'], [['K101', 70, '위험물 자격증 보유'], ['K402', 35, '로켓정비 연관'], ['K412', 30, '탄약관리 연관']]],
+      [['화학분석기사', '화학분석기능사', '화학분석'], [['K101', 65, '화학분석 자격증 보유']]],
+      [['토목기사', '토목산업기사', '토목기능사'], [['T602', 75, '토목 자격증 보유'], ['T603', 35, '공병장비 연관']]],
+      [['건축기사', '건축산업기사'], [['T602', 65, '건축 자격증 보유']]],
+      [['대형운전면허', '대형1종', '1종대형'], [['K301', 85, '대형면허 보유'], ['K302', 30, '이동관리 연관']]],
+      [['1종보통', '운전면허1종'], [['K301', 55, '1종보통 면허 보유'], ['K410', 20, '차량 연관']]],
+      [['2종보통', '운전면허'], [['K301', 30, '운전면허 보유']]],
+      [['toeic', '토익'], [['T501', 60, '영어(토익) 보유'], ['A401', 25, '홍보 연관']]],
+      [['토플', 'toefl'], [['T501', 65, '영어(토플) 보유']]],
+      [['jlpt', '일본어능력시험'], [['T501', 55, '일본어능력 보유']]],
+      [['hsk', '중국어'], [['T501', 55, '중국어능력 보유']]],
+      [['조리기능사', '조리산업기사', '조리기사', '한식', '양식', '중식', '일식', '제과', '제빵'], [['K202', 85, '조리 자격증 보유']]],
+      [['회계사', '공인회계사', 'cpa'], [['A301', 75, '회계사 자격증 보유']]],
+      [['세무사'], [['A301', 65, '세무사 자격증 보유']]],
+      [['전산회계', 'erp'], [['A301', 50, '전산회계 자격증 보유'], ['A101', 25, '행정 연관']]],
+      [['물류관리사'], [['K201', 70, '물류관리사 자격증 보유'], ['K302', 30, '이동관리 연관']]],
+      [['경찰공무원', '경찰'], [['A202', 65, '경찰 관련 자격 보유'], ['A201', 50, '군사경찰 연관']]],
+      [['무도', '태권도', '유도', '검도', '합기도', '주짓수'], [['A201', 55, '무도 자격증 보유'], ['T101', 35, '전투 연관']]],
+      [['음악', '피아노', '바이올린', '플루트', '클라리넷', '색소폰', '트럼펫', '타악기', '지휘'], [['A501', 85, '음악 자격·전공 보유']]],
+      [['사회복지사'], [['S301', 70, '사회복지사 자격증 보유'], ['A401', 30, '교육·복지 연관']]]
     ];
 
     for (var ci = 0; ci < CERT_MAP.length; ci++) {
       var keywords = CERT_MAP[ci][0];
-      var targets  = CERT_MAP[ci][1];
-      var matched  = false;
+      var targets = CERT_MAP[ci][1];
+      var matched = false;
       for (var ki = 0; ki < keywords.length; ki++) {
         if (cs.indexOf(keywords[ki].toLowerCase()) !== -1) { matched = true; break; }
       }
@@ -339,16 +341,16 @@
     }
 
     /* ── 성격 보정 ── */
-    if (pers.indexOf('솔선수범') !== -1) ['T101','T102','T103','A201'].forEach(function (id) { add(id, 10, '리더십 적합'); });
-    if (pers.indexOf('분석·계획') !== -1) ['T502','T503','T703','A202'].forEach(function (id) { add(id, 10, '분석력 활용'); });
-    if (pers.indexOf('체력·현장') !== -1 || pers.indexOf('야외·현장') !== -1) ['T101','T102','T201','T203','A201'].forEach(function (id) { add(id, 10, '현장 체력 활용'); });
-    if (pers.indexOf('기술·전문') !== -1 || pers.indexOf('첨단장비') !== -1) ['T703','T802','K403','T506','K408'].forEach(function (id) { add(id, 10, '기술 전문성'); });
-    if (pers.indexOf('소통·봉사') !== -1 || pers.indexOf('대인관계') !== -1) ['S101','S301','A401','T501'].forEach(function (id) { add(id, 10, '소통·봉사 적합'); });
-    if (pers.indexOf('꼼꼼·세심') !== -1) ['A301','A101','K412','K413'].forEach(function (id) { add(id, 9, '세밀함 요구'); });
-    if (pers.indexOf('도전·모험') !== -1) ['T102','T103','A201','T201'].forEach(function (id) { add(id, 9, '도전정신 발휘'); });
-    if (pers.indexOf('창의·아이디어') !== -1) ['A401','A501','T703'].forEach(function (id) { add(id, 8, '창의성 발휘'); });
-    if (pers.indexOf('정보·분석') !== -1) ['T502','T503','T703','T501'].forEach(function (id) { add(id, 9, '정보 분석 적합'); });
-    if (pers.indexOf('실내·사무') !== -1) ['T703','A301','A101','S201'].forEach(function (id) { add(id, 8, '실내 근무 선호'); });
+    if (pers.indexOf('솔선수범') !== -1) ['T101', 'T102', 'T103', 'A201'].forEach(function (id) { add(id, 10, '리더십 적합'); });
+    if (pers.indexOf('분석·계획') !== -1) ['T502', 'T503', 'T703', 'A202'].forEach(function (id) { add(id, 10, '분석력 활용'); });
+    if (pers.indexOf('체력·현장') !== -1 || pers.indexOf('야외·현장') !== -1) ['T101', 'T102', 'T201', 'T203', 'A201'].forEach(function (id) { add(id, 10, '현장 체력 활용'); });
+    if (pers.indexOf('기술·전문') !== -1 || pers.indexOf('첨단장비') !== -1) ['T703', 'T802', 'K403', 'T506', 'K408'].forEach(function (id) { add(id, 10, '기술 전문성'); });
+    if (pers.indexOf('소통·봉사') !== -1 || pers.indexOf('대인관계') !== -1) ['S101', 'S301', 'A401', 'T501'].forEach(function (id) { add(id, 10, '소통·봉사 적합'); });
+    if (pers.indexOf('꼼꼼·세심') !== -1) ['A301', 'A101', 'K412', 'K413'].forEach(function (id) { add(id, 9, '세밀함 요구'); });
+    if (pers.indexOf('도전·모험') !== -1) ['T102', 'T103', 'A201', 'T201'].forEach(function (id) { add(id, 9, '도전정신 발휘'); });
+    if (pers.indexOf('창의·아이디어') !== -1) ['A401', 'A501', 'T703'].forEach(function (id) { add(id, 8, '창의성 발휘'); });
+    if (pers.indexOf('정보·분석') !== -1) ['T502', 'T503', 'T703', 'T501'].forEach(function (id) { add(id, 9, '정보 분석 적합'); });
+    if (pers.indexOf('실내·사무') !== -1) ['T703', 'A301', 'A101', 'S201'].forEach(function (id) { add(id, 8, '실내 근무 선호'); });
 
     /* ── 정렬 및 상위 4개 추출 ── */
     var arr = [];
@@ -381,13 +383,13 @@
     document.getElementById('resultName').innerHTML = profile.name + '<span>님의 맞춤 특기</span>';
     document.getElementById('resultSub').textContent = profile.major + ' 전공 · ' + profile.personality.slice(0, 2).join(', ') + ' 기반 분석';
 
-    var rankLabels = ['1지망','2지망','3지망','4지망'];
-    var rcClasses  = ['rc1','rc2','rc3','rc4'];
-    var gridHtml   = '';
+    var rankLabels = ['1지망', '2지망', '3지망', '4지망'];
+    var rcClasses = ['rc1', 'rc2', 'rc3', 'rc4'];
+    var gridHtml = '';
 
     recs.forEach(function (rec, i) {
-      var d   = getDetail(rec.sub.id);
-      var cm  = CORPS[rec.corps];
+      var d = getDetail(rec.sub.id);
+      var cm = CORPS[rec.corps];
       var pct = Math.min(99, Math.max(72, d.match - i * 3 + Math.floor(Math.random() * 3)));
       gridHtml += '<div class="rank-card ' + rcClasses[i] + '" id="rc' + i + '" data-idx="' + i + '" data-specid="' + rec.sub.id + '" data-corps="' + rec.corps + '" onclick="selectCardEv(this)" data-pct="' + pct + '">';
       gridHtml += '<div class="rank-card-top">';
@@ -400,6 +402,12 @@
       gridHtml += '<div class="bar-bg"><div class="bar-fill" id="bar' + i + '" data-w="' + pct + '"></div></div>';
       gridHtml += '</div></div>';
     });
+
+    gridHtml += '<a href="https://m-recruit.mnd.go.kr/" target="_blank" class="apply-card">';
+    gridHtml += '<span class="apply-card-icon">📝</span>';
+    gridHtml += '<div class="apply-card-txt">육군 간부<br>지원서 작성하기</div>';
+    gridHtml += '<div class="apply-card-sub">모집 홈페이지로 이동 →</div>';
+    gridHtml += '</a>';
 
     document.getElementById('rankGrid').innerHTML = gridHtml;
     setTimeout(function () {
@@ -446,14 +454,14 @@
   };
 
   function renderDetailPanel(specId, corpsName, reasons, rankIdx) {
-    var d       = getDetail(specId);
-    var cm      = CORPS[corpsName] || { icon: '🎖️', cat: '' };
+    var d = getDetail(specId);
+    var cm = CORPS[corpsName] || { icon: '🎖️', cat: '' };
     var specObj = null;
     if (cm.subs) for (var i = 0; i < cm.subs.length; i++) if (cm.subs[i].id === specId) { specObj = cm.subs[i]; break; }
     var specName = specObj ? specObj.name : specId;
-    var specTag  = specObj ? specObj.tag  : '';
-    var rankLabels = ['1지망','2지망','3지망','4지망'];
-    var rankLabel  = rankLabels[rankIdx !== undefined ? rankIdx : 0];
+    var specTag = specObj ? specObj.tag : '';
+    var rankLabels = ['1지망', '2지망', '3지망', '4지망'];
+    var rankLabel = rankLabels[rankIdx !== undefined ? rankIdx : 0];
 
     var dutiesHtml = '';
     for (var di = 0; di < d.duties.length; di++) {
@@ -463,10 +471,10 @@
     /* 추천 이유 */
     var reasonHtml = '';
     if (reasons && reasons.length > 0) {
-      var tagIcons = { '전공 직결':'🎓','전공':'🎓','자격증':'📜','리더십':'🏅','분석력':'🔍','체력':'💪','기술':'⚙️','소통':'🤝','봉사':'🤝','꼼꼼':'✅','도전':'🔥','창의':'💡','정보':'📡','실내':'🖥️' };
+      var tagIcons = { '전공 직결': '🎓', '전공': '🎓', '자격증': '📜', '리더십': '🏅', '분석력': '🔍', '체력': '💪', '기술': '⚙️', '소통': '🤝', '봉사': '🤝', '꼼꼼': '✅', '도전': '🔥', '창의': '💡', '정보': '📡', '실내': '🖥️' };
       var pills = '';
       for (var ri = 0; ri < reasons.length; ri++) {
-        var r    = reasons[ri];
+        var r = reasons[ri];
         var icon = '✔️';
         for (var k in tagIcons) { if (r.indexOf(k) !== -1) { icon = tagIcons[k]; break; } }
         pills += '<span class="why-pill">' + icon + ' ' + r + '</span>';
@@ -475,20 +483,20 @@
     }
 
     var h = '<div class="detail-panel">'
-          + '<div class="detail-header">'
-          + '<div class="detail-close" onclick="closeDetail()">✕</div>'
-          + '<div class="detail-header-inner">'
-          + '<div><div class="detail-corps">' + rankLabel + ' · ' + corpsName + '병과 · ' + cm.cat + '</div>'
-          + '<div class="detail-name">' + cm.icon + ' ' + specName + '</div></div>'
-          + '<div class="detail-tag-pill">' + specTag + '</div>'
-          + '</div></div>'
-          + '<div class="detail-body">'
-          + reasonHtml
-          + '<div class="d-label">특기 설명</div><div class="d-text">' + d.desc + '</div>'
-          + '<div class="d-label">주요 임무</div><div class="duty-grid">' + dutiesHtml + '</div>'
-          + '<div class="pros-cons"><div class="pros"><div class="pc-lbl">✅ 장점</div>' + d.pros + '</div><div class="cons"><div class="pc-lbl">⚠️ 고려사항</div>' + d.cons + '</div></div>'
-          + '<a class="yt-link" href="' + d.youtube + '" target="_blank" rel="noopener"><span class="yt-icon">▶️</span><div class="yt-txt"><div class="yt-ttl">' + d.ytTitle + '</div><div class="yt-sub">YouTube에서 실제 영상 보기 →</div></div></a>'
-          + '</div></div>';
+      + '<div class="detail-header">'
+      + '<div class="detail-close" onclick="closeDetail()">✕</div>'
+      + '<div class="detail-header-inner">'
+      + '<div><div class="detail-corps">' + rankLabel + ' · ' + corpsName + '병과 · ' + cm.cat + '</div>'
+      + '<div class="detail-name">' + cm.icon + ' ' + specName + '</div></div>'
+      + '<div class="detail-tag-pill">' + specTag + '</div>'
+      + '</div></div>'
+      + '<div class="detail-body">'
+      + reasonHtml
+      + '<div class="d-label">특기 설명</div><div class="d-text">' + d.desc + '</div>'
+      + '<div class="d-label">주요 임무</div><div class="duty-grid">' + dutiesHtml + '</div>'
+      + '<div class="pros-cons"><div class="pros"><div class="pc-lbl">✅ 장점</div>' + d.pros + '</div><div class="cons"><div class="pc-lbl">⚠️ 고려사항</div>' + d.cons + '</div></div>'
+      + '<a class="yt-link" href="' + d.youtube + '" target="_blank" rel="noopener"><span class="yt-icon">▶️</span><div class="yt-txt"><div class="yt-ttl">' + d.ytTitle + '</div><div class="yt-sub">YouTube에서 실제 영상 보기 →</div></div></a>'
+      + '</div></div>';
 
     document.getElementById('detailPanel').innerHTML = h;
   }
@@ -553,8 +561,8 @@
   window.toggleSpecEv = function (e, el) {
     e.stopPropagation();
     var specId = el.getAttribute('data-specid');
-    var si     = el;
-    var sd     = document.getElementById('sd_' + specId);
+    var si = el;
+    var sd = document.getElementById('sd_' + specId);
     if (!si || !sd) return;
     if (openSpecId && openSpecId !== specId) {
       var oldSi = document.getElementById('si_' + openSpecId);
@@ -583,10 +591,10 @@
   ═══════════════════════════════════════════════ */
   function resetAll() {
     certs = []; profile = {}; activeCardIdx = -1; openCorpsName = null; openSpecId = null; lastRecs = [];
-    ['inp_name','inp_age','inp_majorDetail','inp_extra','certInput'].forEach(function (id) {
+    ['inp_name', 'inp_age', 'inp_majorDetail', 'inp_extra', 'certInput'].forEach(function (id) {
       var e = document.getElementById(id); if (e) e.value = '';
     });
-    ['inp_gender','inp_edu','inp_major'].forEach(function (id) {
+    ['inp_gender', 'inp_edu', 'inp_major'].forEach(function (id) {
       var e = document.getElementById(id); if (e) e.value = '';
     });
     var cl = document.getElementById('certList');
