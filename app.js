@@ -453,11 +453,11 @@
       gridHtml += '</div></div>';
     });
 
-    gridHtml += '<a href="https://m-recruit.mnd.go.kr/" target="_blank" class="apply-card">';
-    gridHtml += '<span class="apply-card-icon">📝</span>';
-    gridHtml += '<div class="apply-card-txt">육군 간부<br>지원서 작성하기</div>';
-    gridHtml += '<div class="apply-card-sub">모집 홈페이지로 이동 →</div>';
-    gridHtml += '</a>';
+    gridHtml += '<a href="https://m-recruit.mnd.go.kr/" target="_blank" class="apply-btn-premium">';
+    gridHtml += '<div class="premium-badge"><span class="premium-icon">🎖️</span></div>';
+    gridHtml += '<div class="premium-inner">';
+    gridHtml += '<span class="premium-txt">육군 간부 지원하기</span><span class="premium-arrow">▶</span>';
+    gridHtml += '</div></a>';
 
     document.getElementById('rankGrid').innerHTML = gridHtml;
     setTimeout(function () {
