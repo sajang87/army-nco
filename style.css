@@ -1441,3 +1441,80 @@ textarea {
     background: var(--border2);
     border-radius: 2px
 }
+
+/* ═══════════════════════════════════════════════
+   MBTI UI 스타일
+═══════════════════════════════════════════════ */
+.mbti-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.mbti-btn {
+    padding: 10px 4px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .2s;
+    background: #fff;
+    color: var(--text2);
+    font-weight: 700;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.mbti-btn:active {
+    transform: scale(.95)
+}
+
+.mbti-btn.selected {
+    background: #627a52;
+    border-color: #627a52;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(98, 122, 82, .3)
+}
+
+.mbti-desc {
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(74, 92, 63, .05);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 3px solid #627a52;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════
+   데스크탑 / 태블릿 반응형 레이아웃 (PC 시점 최적화)
+═══════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header,
+    .steps-nav,
+    .screen,
+    #screenResult,
+    .site-footer {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .steps-nav {
+        border-radius: 0 0 16px 16px;
+    }
+
+    /* 결과화면 탐색 그리드를 데스크탑에선 조금 더 넓게 조정 가능하지만 
+       현재는 600px 래퍼와 모바일 비율을 동일하게 유지하여 가독성 통일 */
+}

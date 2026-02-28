@@ -78,6 +78,7 @@
       major: document.getElementById('inp_major').value,
       majorDetail: document.getElementById('inp_majorDetail').value,
       certs: certs.slice(),
+      mbti: selectedMbti || '',
       personality: pers,
       extra: document.getElementById('inp_extra').value
     };
@@ -116,6 +117,46 @@
 
   document.querySelectorAll('.chip').forEach(function (c) {
     c.addEventListener('click', function () { this.classList.toggle('selected'); });
+  });
+
+  /* ═══════════════════════════════════════════════
+     MBTI 데이터 및 이벤트
+  ═══════════════════════════════════════════════ */
+  var selectedMbti = null;
+  var MBTI_MAP = {
+    'ISTJ': { desc: '체계적이고 책임감이 강한 현실주의자', specs: [['A101', 15], ['A301', 15], ['K412', 12]] },
+    'ISFJ': { desc: '차분하고 헌신적인 수호자', specs: [['S101', 15], ['S301', 12], ['K201', 10]] },
+    'INFJ': { desc: '통찰력 있는 선의의 옹호자', specs: [['A401', 15], ['S301', 15], ['T501', 10]] },
+    'INTJ': { desc: '전략적이고 분석적인 전문가', specs: [['T703', 15], ['T502', 15], ['T303', 10]] },
+    'ISTP': { desc: '과묵한 기술 장인, 만능 재주꾼', specs: [['T202', 15], ['K410', 15], ['T802', 12]] },
+    'ISFP': { desc: '온화하고 현장 감각이 뛰어난 감성파', specs: [['A501', 12], ['K202', 10], ['S301', 10]] },
+    'INFP': { desc: '이상주의적이고 공감 능력이 뛰어난 중재자', specs: [['S301', 15], ['A401', 12], ['S101', 10]] },
+    'INTP': { desc: '논리적이고 호기심 많은 분석가', specs: [['T703', 15], ['T503', 12], ['K403', 10]] },
+    'ESTP': { desc: '행동 지향적이고 적응력이 뛰어난 모험가', specs: [['T102', 15], ['A201', 15], ['T601', 10]] },
+    'ESFP': { desc: '사교적이고 활동적인 자유로운 영혼', specs: [['A401', 12], ['A501', 12], ['K301', 10]] },
+    'ENFP': { desc: '열정적이고 창의적인 활동가', specs: [['A401', 15], ['T506', 10], ['T501', 10]] },
+    'ENTP': { desc: '새로운 도전을 즐기는 혁신가', specs: [['T703', 12], ['T506', 15], ['T502', 12]] },
+    'ESTJ': { desc: '현실적이고 목표 지향적인 관리자', specs: [['T101', 15], ['A201', 12], ['A101', 12]] },
+    'ESFJ': { desc: '배려심 많고 협력적인 조력자', specs: [['S101', 12], ['A101', 12], ['A401', 10]] },
+    'ENFJ': { desc: '타인을 이끄는 언변능숙한 지도자', specs: [['A401', 15], ['S301', 12], ['T501', 12]] },
+    'ENTJ': { desc: '결단력 있고 야심찬 야전 지휘관', specs: [['T101', 15], ['T201', 15], ['T402', 10]] }
+  };
+
+  document.querySelectorAll('.mbti-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (this.classList.contains('selected')) {
+        this.classList.remove('selected');
+        selectedMbti = null;
+        document.getElementById('mbtiDesc').textContent = 'MBTI를 선택하면 유형별 추천 가점이 부여됩니다.';
+        return;
+      }
+      document.querySelectorAll('.mbti-btn').forEach(function (b) { b.classList.remove('selected'); });
+      this.classList.add('selected');
+      selectedMbti = this.getAttribute('data-mbti');
+      if (MBTI_MAP[selectedMbti]) {
+        document.getElementById('mbtiDesc').textContent = MBTI_MAP[selectedMbti].desc + ' - 해당 특성에 맞는 병과에 가산점이 부여됩니다.';
+      }
+    });
   });
 
   /* ═══════════════════════════════════════════════
@@ -352,6 +393,14 @@
     if (pers.indexOf('정보·분석') !== -1) ['T502', 'T503', 'T703', 'T501'].forEach(function (id) { add(id, 9, '정보 분석 적합'); });
     if (pers.indexOf('실내·사무') !== -1) ['T703', 'A301', 'A101', 'S201'].forEach(function (id) { add(id, 8, '실내 근무 선호'); });
 
+    /* ── MBTI 보정 ── */
+    if (p.mbti && MBTI_MAP[p.mbti]) {
+      var mbtiSpecs = MBTI_MAP[p.mbti].specs;
+      for (var mi = 0; mi < mbtiSpecs.length; mi++) {
+        add(mbtiSpecs[mi][0], mbtiSpecs[mi][1], 'MBTI(' + p.mbti + ') 성향 적합');
+      }
+    }
+
     /* ── 정렬 및 상위 4개 추출 ── */
     var arr = [];
     for (var key in scores) arr.push(scores[key]);
@@ -381,7 +430,8 @@
     var recs = recommend(profile);
     lastRecs = recs;
     document.getElementById('resultName').innerHTML = profile.name + '<span>님의 맞춤 특기</span>';
-    document.getElementById('resultSub').textContent = profile.major + ' 전공 · ' + profile.personality.slice(0, 2).join(', ') + ' 기반 분석';
+    var mbtiStr = profile.mbti ? profile.mbti + ' · ' : '';
+    document.getElementById('resultSub').textContent = profile.major + ' 전공 · ' + mbtiStr + profile.personality.slice(0, 2).join(', ') + ' 기반 분석';
 
     var rankLabels = ['1지망', '2지망', '3지망', '4지망'];
     var rcClasses = ['rc1', 'rc2', 'rc3', 'rc4'];
@@ -591,6 +641,7 @@
   ═══════════════════════════════════════════════ */
   function resetAll() {
     certs = []; profile = {}; activeCardIdx = -1; openCorpsName = null; openSpecId = null; lastRecs = [];
+    selectedMbti = null;
     ['inp_name', 'inp_age', 'inp_majorDetail', 'inp_extra', 'certInput'].forEach(function (id) {
       var e = document.getElementById(id); if (e) e.value = '';
     });
@@ -600,6 +651,9 @@
     var cl = document.getElementById('certList');
     if (cl) cl.innerHTML = '';
     document.querySelectorAll('.chip.selected').forEach(function (c) { c.classList.remove('selected'); });
+    document.querySelectorAll('.mbti-btn.selected').forEach(function (b) { b.classList.remove('selected'); });
+    var mbtiDesc = document.getElementById('mbtiDesc');
+    if (mbtiDesc) mbtiDesc.textContent = 'MBTI를 선택하면 유형별 추천 가점이 부여됩니다.';
     document.querySelectorAll('.error-msg').forEach(function (e) { e.style.display = 'none'; });
     showResultPage(false);
     goStep(1);
