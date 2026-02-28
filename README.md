@@ -6,29 +6,20 @@
 
 ```
 army-nco/
-├── public/
-│   ├── index.html   # HTML 골격
-│   ├── style.css    # 스타일
-│   └── app.js       # 추천 로직 및 동작
-├── server.js        # Express 서버
-├── package.json
+├── index.html       # HTML 골격
+├── style.css        # 스타일
+├── app.js           # 추천 로직 및 동작
 ├── .gitignore
 └── README.md
 ```
 
 ## 로컬 실행
 
-```bash
-npm install
-npm start
-# → http://localhost:3000
-```
+별도의 서버 설치 없이 브라우저에서 `index.html` 파일을 직접 열어 실행할 수 있습니다.
 
-## GitHub + Railway 배포
+## GitHub Pages 배포
 
-1. GitHub에 이 폴더를 저장소로 push
-2. [railway.app](https://railway.app) 접속 → New Project → Deploy from GitHub repo
-3. 저장소 선택 후 자동 배포 완료
-
-Railway는 `package.json`의 `start` 스크립트(`node server.js`)를 자동으로 실행하며,  
-`PORT` 환경변수도 자동으로 주입됩니다.
+1. GitHub 저장소의 `Settings` > `Pages` 메뉴로 이동
+2. `Source`를 "Deploy from a branch"로 선택
+3. 분기를 배포 브랜치 (예: `pages` 또는 `main`)로 선택하고, 폴더를 `/(root)`로 지정한 뒤 `Save`
+4. 몇 분 뒤 `https://[username].github.io/[repository-name]/` 주소로 접속 가능
