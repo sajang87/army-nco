@@ -1515,6 +1515,23 @@ textarea {
         border-radius: 0 0 16px 16px;
     }
 
-    /* 결과화면 탐색 그리드를 데스크탑에선 조금 더 넓게 조정 가능하지만 
-       현재는 600px 래퍼와 모바일 비율을 동일하게 유지하여 가독성 통일 */
+    /* 결과면 반응형 대응: 추천 카드 가로스크롤 해제 및 2단 그리드 */
+    .rank-scroll-wrap {
+        overflow-x: visible;
+        padding-bottom: 12px;
+    }
+
+    .rank-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        min-width: unset;
+        /* 스와이프 강제 폭 해제 */
+    }
+
+    .rank-card,
+    .apply-card {
+        width: 100%;
+        /* 고정폭 210px 제거 */
+    }
 }
