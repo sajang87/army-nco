@@ -682,24 +682,18 @@ textarea {
 
 .rank-scroll-wrap {
     padding: 0 18px 6px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none
-}
-
-.rank-scroll-wrap::-webkit-scrollbar {
-    display: none
 }
 
 .rank-grid {
     display: flex;
+    flex-direction: column;
+    /* 모바일에선 세로로 나열 */
     gap: 12px;
-    min-width: max-content
 }
 
 .rank-card {
-    width: 210px;
-    flex-shrink: 0;
+    width: 100%;
+    /* 고정폭(210px) 제거하고 꽉 채우기 */
     background: #fff;
     border: 2px solid var(--border);
     border-radius: 14px;
