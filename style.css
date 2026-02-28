@@ -704,19 +704,44 @@ textarea {
 
 .apply-btn-premium {
     position: relative;
-    /* 왼쪽 배지가 튀어나올 공간 확보 */
-    margin: 16px 0 16px 24px;
-    padding: 5px;
+    margin: 16px 0;
+    padding: 3px;
     border-radius: 100px;
-    background: linear-gradient(90deg, #1fe4f5, #3fbafe);
-    /* 이미지와 유사한 네온 블루 그라데이션 */
+    background: linear-gradient(90deg, #11998e, #38ef7d);
     display: block;
     text-decoration: none;
-    box-shadow: 0 8px 24px rgba(63, 186, 254, 0.4);
+    box-shadow: 0 8px 24px rgba(56, 239, 125, 0.5), 0 0 15px rgba(17, 153, 142, 0.4);
     transition: transform 0.2s, box-shadow 0.2s;
-    width: calc(100% - 24px);
-    /* 마진만큼 축소 */
+    width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(56, 239, 125, 0.4), 0 8px 24px rgba(56, 239, 125, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(56, 239, 125, 0), 0 8px 24px rgba(56, 239, 125, 0.6); }
+    100% { box-shadow: 0 0 0 0 rgba(56, 239, 125, 0), 0 8px 24px rgba(56, 239, 125, 0.5); }
+}
+
+.apply-btn-premium::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    animation: shine-green 2.5s infinite;
+    z-index: 10;
+    pointer-events: none;
+}
+
+@keyframes shine-green {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
 }
 
 .apply-btn-premium:active {
@@ -726,51 +751,28 @@ textarea {
 .premium-inner {
     background: #fff;
     border-radius: 100px;
-    padding: 14px 24px 14px 38px;
-    /* 왼쪽에 아이콘이 걸쳐질 공간 추가 여백 */
+    padding: 16px 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     height: 100%;
     box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
 
 .premium-txt {
     font-family: "Black Han Sans", sans-serif;
     font-size: 19px;
     letter-spacing: 1px;
-    color: #333;
+    color: #11998e;
 }
 
 .premium-arrow {
-    font-size: 12px;
-    color: #3fbafe;
+    font-size: 14px;
+    color: #38ef7d;
     font-weight: 900;
-}
-
-.premium-badge {
-    position: absolute;
-    left: -24px;
-    /* 바깥으로 튀어나오게 설정 */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 58px;
-    height: 58px;
-    background: #1a1a1a;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 2;
-    border: 3px solid #3fbafe;
-    /* 그라데이션 대신 단색으로 심플하게 */
-}
-
-.premium-icon {
-    font-size: 26px;
-    line-height: 1;
 }
 
 .site-footer {

@@ -454,7 +454,6 @@
     });
 
     gridHtml += '<a href="https://m-recruit.mnd.go.kr/" target="_blank" class="apply-btn-premium">';
-    gridHtml += '<div class="premium-badge"><span class="premium-icon">🎖️</span></div>';
     gridHtml += '<div class="premium-inner">';
     gridHtml += '<span class="premium-txt">육군 간부 지원하기</span><span class="premium-arrow">▶</span>';
     gridHtml += '</div></a>';
